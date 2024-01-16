@@ -16,7 +16,7 @@ jobs:
 
       - name: Download BSC
         id: download
-        uses: B-Lang-org/download-bsc@v1
+        uses: ./
         with:
           os: ${{ matrix.os }}
           version: latest
@@ -46,7 +46,7 @@ jobs:
 
       - name: Download BSC
         id: download
-        uses: B-Lang-org/download-bsc@v1
+        uses: ./
         with:
           os: ${{ matrix.os }}
           version: ${{ matrix.version }}
