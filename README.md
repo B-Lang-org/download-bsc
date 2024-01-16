@@ -18,7 +18,7 @@ This action downloads and installs BSC from the B-Lang-org/BSC repo.
   * Default: `${{ runner.debug }}`
 * `github_token`
   * Personal access token for downloading from the public BSC repository
-  * Default: `${{ secrets.GITHUB_TOKEN }}`
+  * Default: `${{ github.token }}`
 
 ## Outputs
 
@@ -50,11 +50,11 @@ To access the outputs, assign the step an `id` that can then be referrenced:
 
 - name: Build
   run: |
-    echo Version tag: ${{steps.download.outputs.tag}}
-    echo Version hash: ${{steps.download.outputs.commit}}
+    echo Version tag: ${{ steps.download.outputs.tag }}
+    echo Version hash: ${{ steps.download.outputs.commit }}
     export PATH=$PWD/../bsc/bin:$PATH
     bsc -v
 ```
 
-As shown in the above example, BSC is installed into an `inst`
-directory below the specified `path`.
+As shown in the above example, BSC is installed into a directory
+called `bsc` below the specified `path`.
