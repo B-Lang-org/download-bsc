@@ -1,0 +1,33 @@
+name: Download and install BSC
+description: Install the latest working commit or a specific release of BSC
+
+inputs:
+  version:
+    description: The release tag to download or 'latest' for the latest working commit
+    required: false
+    default: latest
+  os:
+    description: The operating system
+    required: true
+  path:
+    description: The directory where the artifact is extracted
+    required: false
+    default: ./
+  debug:
+    description: Whether to enable debug logging
+    required: false
+    default: ${{ runner.debug }}
+  github_token:
+    description: GitHub token
+    required: false
+    default: ${{ github.token }}
+
+outputs:
+  tag:
+    description: 'The version tag of the BSC that was installed'
+  commit:
+    description: 'The commit hash of the BSC that was installed'
+
+runs:
+  using: node20
+  main: index.js
