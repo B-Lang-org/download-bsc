@@ -8,6 +8,20 @@ const fs = require("fs");
 const child_process = require("child_process");
 //const https = require("https");
 
+function getXYZversion (s) {
+  return s.split(".").map(function(e) { return parseInt(e) });
+}
+
+function compareVersions (a, b) {
+  for (var i = 0; i < Math.max(a.length, b.length); i ++) {
+    if (! a[i]) return -1;
+    if (! b[i]) return 1;
+    if (a[i] > b[i]) return 1;
+    else if (a[i] < b[i]) return -1;
+  }
+  return 0;
+}
+
 async function main() {
   try {
     // inputs
@@ -23,13 +37,15 @@ async function main() {
     console.log(`  debug: ${debug}`);
     console.log("");
 
-    // Config
+    // Config (General)
     const owner = "B-Lang-org";
     const repo = "bsc";
-    const workflow = "build.yml";
-    const artifact_name = `${os} build`;
-    const tar_name = `inst`;
     const install_name = `bsc`;
+
+    // Config (for getting the latest CI build)
+    const workflow = "ci.yml";
+    const artifact_regex = new RegExp(`^${os} ghc-([0-9]+\.[0-9]\.[0-9]+) build$`);
+    const tar_name = `inst`;
 
     // Turn on extra debug prints
     const debug_extra = false;
@@ -169,10 +185,22 @@ async function main() {
 
       // Find the artifact with a specific name
       let artifact_id = undefined;
+      var ghc_version;
       for (const artifact of artifacts) {
-	if (artifact.name == artifact_name) {
-	  artifact_id = artifact.id;
-	  break;
+	var match_res = artifact_regex.exec(artifact.name);
+	if (match_res != null) {
+	  if (! artifact_id) {
+	    // first match, so take it
+	    artifact_id = artifact.id;
+	    ghc_version = getXYZversion(match_res[1]);
+	  } else {
+	    var new_ghc_ver = getXYZversion(match_res[1]);
+	    if (compareVersions(new_ghc_ver, ghc_version) < 0) {
+	      // The new artifact has lower GHC version, so take it
+	      artifact_id = artifact.id;
+	      ghc_version = new_ghc_ver;
+	    }
+	  }
 	}
       }
       if (! artifact_id) {
@@ -180,7 +208,7 @@ async function main() {
 	for (const artifact of artifacts) {
 	  console.log(`  ${artifact.name}`);
 	}
-	throw new Error(`Could not find artifact: ${artifact_name}`);
+	throw new Error(`Could not find artifact: ${artifact_regex}`);
       }
       if (debug)
 	console.log(`Found artifact ID: ${artifact_id}`);
