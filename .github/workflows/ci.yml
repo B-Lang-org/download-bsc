@@ -7,7 +7,7 @@ jobs:
   test-latest:
     strategy:
       matrix:
-        os: [ ubuntu-20.04, ubuntu-22.04, macos-11, macos-12, macos-13 ]
+        os: [ ubuntu-20.04, ubuntu-22.04, ubuntu-24.04, macos-12, macos-13, macos-14 ]
       fail-fast: false
     name: "Test latest ${{ matrix.os }}"
     runs-on: ${{ matrix.os }}
@@ -32,12 +32,12 @@ jobs:
   test-release:
     strategy:
       matrix:
-        version: [ 2023.01, 2023.07 ]
-        os: [ ubuntu-20.04, ubuntu-22.04, macos-11, macos-12, macos-13 ]
+        version: [ 2024.01, 2024.07 ]
+        os: [ ubuntu-20.04, ubuntu-22.04, ubuntu-24.04, macos-12, macos-13, macos-14 ]
         exclude:
-          # macOS 13 was introduced at 2023.07
-          - version: 2023.01
-            os: macos-13
+          # macOS 14 was introduced at 2024.07
+          - version: 2024.01
+            os: macos-14
       fail-fast: false
     name: "Test release ${{ matrix.version }} ${{ matrix.os }}"
     runs-on: ${{ matrix.os }}
