@@ -12,7 +12,7 @@ jobs:
     name: "Test latest ${{ matrix.os }}"
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - name: Download BSC
         id: download
@@ -43,7 +43,7 @@ jobs:
     name: "Test release ${{ matrix.version }} ${{ matrix.os }}"
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - name: Download BSC
         id: download

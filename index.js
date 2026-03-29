@@ -1,12 +1,12 @@
-const core = require("@actions/core");
-const github = require("@actions/github");
-const artifact = require("@actions/artifact");
-const AdmZip = require("adm-zip");
-const pathpkg = require("path");
-const tar = require("tar");
-const fs = require("fs");
-const child_process = require("child_process");
-//const https = require("https");
+import * as core from "@actions/core";
+import * as github from "@actions/github";
+import * as artifact from "@actions/artifact";
+import AdmZip from "adm-zip";
+import * as pathpkg from "path";
+import * as tar from "tar";
+import * as fs from "fs";
+import * as child_process from "child_process";
+//import * as https from "https";
 
 function getXYZversion (s) {
   return s.split(".").map(function(e) { return parseInt(e) });
@@ -148,6 +148,7 @@ async function main() {
 
       // Get the run ID of the latest successful push to main
 
+      let run_id = undefined;
       for await (const runs of client.paginate.iterator(client.rest.actions.listWorkflowRuns, {
 	owner: owner,
 	repo: repo,

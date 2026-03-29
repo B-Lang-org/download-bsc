@@ -29,5 +29,5 @@ outputs:
     description: 'The commit hash of the BSC that was installed'
 
 runs:
-  using: node20
+  using: node24
   main: index.js
