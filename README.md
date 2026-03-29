@@ -7,7 +7,7 @@ This action downloads and installs BSC from the B-Lang-org/BSC repo.
 * `os`
   * **[Required]** The operating system
 * `version`
-  * The version of BSC (e.g. `2023.07`) to download
+  * The version of BSC (e.g. `2025.07`) to download
     or `latest` to download the latest passing commit on the `main` branch
   * Default: `latest`
 * `path`
@@ -30,10 +30,10 @@ This action downloads and installs BSC from the B-Lang-org/BSC repo.
 ## Example usage
 
 ```yaml
-uses: B-Lang-org/download-bsc@v1
+uses: B-Lang-org/download-bsc@v2
 with:
   os: ${{ matrix.os }}
-  version: 2023.07
+  version: 2025.07
   path: ../
 ```
 
@@ -42,7 +42,7 @@ To access the outputs, assign the step an `id` that can then be referrenced:
 ```yaml
 - name: Download BSC
   id: download
-  uses: B-Lang-org/download-bsc@v1
+  uses: B-Lang-org/download-bsc@v2
   with:
     os: ${{ matrix.os }}
     version: latest
