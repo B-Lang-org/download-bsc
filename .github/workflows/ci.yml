@@ -7,7 +7,8 @@ jobs:
   test-latest:
     strategy:
       matrix:
-        os: [ ubuntu-22.04, ubuntu-24.04, macos-14, macos-15, macos-15-intel, macos-26 ]
+        os: [ ubuntu-22.04, ubuntu-24.04, ubuntu-24.04-arm, ubuntu-26.04, ubuntu-26.04-arm,
+              macos-15, macos-15-intel, macos-26, macos-26-intel ]
       fail-fast: false
     name: "Test latest ${{ matrix.os }}"
     runs-on: ${{ matrix.os }}
@@ -32,13 +33,18 @@ jobs:
   test-release:
     strategy:
       matrix:
-        version: [ 2025.01.1, 2025.07 ]
-        os: [ ubuntu-22.04, ubuntu-24.04, macos-14, macos-15, macos-15-intel, macos-26 ]
+        version: [ 2026.01, 2026.07.1 ]
+        os: [ ubuntu-22.04, ubuntu-24.04, ubuntu-24.04-arm, ubuntu-26.04, ubuntu-26.04-arm,
+              macos-15, macos-15-intel, macos-26, macos-26-intel ]
         exclude:
-          # macOS 15 Intel has not been introduced yet
-          - os: macos-15-intel
-          # macOS 26 has not been introduced yet
-          - os: macos-26
+          # Ubuntu ARM was introduced at 2026.07.1
+          - version: 2026.01
+            os: ubuntu-24.04-arm
+          - version: 2026.01
+            os: ubuntu-26.04-arm
+          # macOS 26 Intel was introduced at 2026.07.1
+          - version: 2026.01
+            os: macos-26-intel
       fail-fast: false
     name: "Test release ${{ matrix.version }} ${{ matrix.os }}"
     runs-on: ${{ matrix.os }}
